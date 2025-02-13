@@ -6,7 +6,7 @@ plugins {
 
 group = 'kr.co.devs32'  // 그룹명
 version = '1.0'  // 버전 설정
-sourceCompatibility = '17'  // JDK 버전 설정
+sourceCompatibility = '21'  // JDK 버전 설정
 
 repositories {
     mavenCentral()  // Maven 중앙 저장소에서 의존성 다운로드
