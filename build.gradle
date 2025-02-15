@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '3.0.2'   // 스프링 부트 플러그인 추가
+    id 'org.springframework.boot' version '3.4.2'   // 스프링 부트 플러그인 추가
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'  // 의존성 관리 플러그인 추가
     id 'java'  // Java 플러그인 적용
 }
