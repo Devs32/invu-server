@@ -20,8 +20,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'  // Actuator 스타터 (모니터링 및 관리용)
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'  // 테스트 스타터
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'  // JUnit5
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'  // JUnit5 엔진
 }
 
 test {
