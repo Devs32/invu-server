@@ -44,10 +44,10 @@ jobs:
 
     - name: Build Docker Image
       run: |
-        docker build -t ghcr.io/devs32/invu-server:latest .
+        docker build -t ghcr.io/Devs32/invu-server:latest .
 
     - name: Push Docker Image
-      run: docker push ghcr.io/devs32/invu-server:latest
+      run: docker push ghcr.io/Devs32/invu-server:latest
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
