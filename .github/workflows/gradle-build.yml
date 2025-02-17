@@ -39,13 +39,15 @@ jobs:
     - name: Build with Gradle Wrapper
       run: ./gradlew build
 
-    # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
-    # the publishing section of your build.gradle
-    - name: Publish to GitHub Packages
-      run: ./gradlew publish
-      env:
-        USERNAME: ${{ github.actor }}
-        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Log in to GitHub Container Registry (GHCR)
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+
+    - name: Build Docker Image
+      run: |
+        docker build -t ghcr.io/devs32/invu-server:latest .
+
+    - name: Push Docker Image
+      run: docker push ghcr.io/devs32/invu-server:latest
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
