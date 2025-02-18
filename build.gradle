@@ -2,6 +2,8 @@ plugins {
     id 'org.springframework.boot' version '3.4.2'   // 스프링 부트 플러그인 추가
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'  // 의존성 관리 플러그인 추가
     id 'java'  // Java 플러그인 적용
+    id 'jacoco'
+    id 'org.sonarqube' version '3.5.0.2730'
 }
 
 group = 'kr.co.devs32'  // 그룹명
@@ -29,4 +31,10 @@ test {
 bootJar {
     enabled = true
     archiveFileName = 'app.jar'
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+    }
 }
