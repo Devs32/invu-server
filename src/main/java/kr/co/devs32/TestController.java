@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
-    public static final String DEFAULT_MESSAGE = "hello INVU";
+	public static final String DEFAULT_MESSAGE = "hello INVU";
 
-    @GetMapping("/hello")
-    public String hello() {
-        return getHello();
-    }
+	@GetMapping("/hello")
+	public String hello() {
+		return getHello();
+	}
 
-    private String getHello() {
-        return DEFAULT_MESSAGE + LocalDateTime.now();
-    }
+	private String getHello() {
+		return DEFAULT_MESSAGE + " " + LocalDateTime.now();
+	}
 }
