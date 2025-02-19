@@ -5,7 +5,7 @@
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
 
-name: Build and test
+name: build and test and deploy
 
 on:
   push:
@@ -18,7 +18,6 @@ jobs:
 
     runs-on: ubuntu-latest
     permissions:
-      packages: write  # GHCR 푸시 권한 추가
       contents: read
 
     steps:
@@ -40,6 +39,17 @@ jobs:
     - name: Build with Gradle Wrapper
       run: ./gradlew build
 
+  docker_push:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: actions/checkout@v4
+
+    # Docker 이미지를 빌드하고 푸시합니다
     - name: Log in to GitHub Container Registry (GHCR)
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
 
@@ -60,6 +70,47 @@ jobs:
     #
     # - name: Build with Gradle 8.9
     #   run: gradle build
+  cloudtype_deploy:
+    runs-on: ubuntu-latest
+    needs: build  # 'build' 잡이 완료된 후 실행
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Connect deploy key
+        uses: cloudtype-github-actions/connect@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          ghtoken: ${{ secrets.GHP_TOKEN }}
+          
+      - name: Deploy
+        uses: cloudtype-github-actions/deploy@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          project: devs32/invu
+          stage: main
+          yaml: |
+            name: springboot-crud-example
+            app: java@21
+            options:
+              ports: 8080
+              env:
+                - name: JAVA_OPTS
+                  value: -Xms256m -Xmx512m
+                - name: SPRING_PROFILES_ACTIVE
+                  value: dev
+            context:
+              git:
+                url: git@github.com:${{ github.repository }}.git
+                ref: ${{ github.ref }}
+              preset: java-springboot
+            resources:
+              spot: false
+              cpu: 1.0
+              memory: 1.0
 
   dependency-submission:
 
