@@ -85,7 +85,7 @@ jobs:
           project: devs32/invu
           stage: main
           yaml: |
-            name: springboot-crud-example
+            name: invu-api-server
             app: java@21
             options:
               ports: 8080
