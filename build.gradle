@@ -38,3 +38,11 @@ jacocoTestReport {
         xml.required = true
     }
 }
+
+sonarqube {
+    properties {
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.projectKey", "Devs32_invu-server"
+        property "sonar.login", System.getenv("SONAR_TOKEN") ?: ""
+    }
+}
