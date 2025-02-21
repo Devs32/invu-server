@@ -13,7 +13,7 @@ import static kr.co.devs32.TestController.DEFAULT_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import kr.co.devs32.applcation.InvuApplication;
 
-@Disabled
+
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
     classes = InvuApplication.class
