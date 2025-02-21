@@ -28,6 +28,9 @@ jobs:
 
     - name: Build with Gradle Wrapper
       run: ./gradlew build
+
+    - name: Sonarqube scan
+      run: ./gradlew test jacocoTestReport sonarqube
       
     - name: Log in to GitHub Container Registry (GHCR)
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
