@@ -38,3 +38,7 @@ jacocoTestReport {
         xml.required = true
     }
 }
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+}
