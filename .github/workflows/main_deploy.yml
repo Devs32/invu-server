@@ -14,7 +14,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Cache Gradle dependencies
       uses: actions/cache@v4
       with:
@@ -52,7 +52,8 @@ jobs:
           -Dsonar.java.test.binaries=build/classes/java/test
           -Dsonar.java.source=21
           -Dsonar.verbose=true
-      
+          -Dsonar.coverage.exclusions=**/InvuApplication.java
+
     - name: Log in to GitHub Container Registry (GHCR)
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
 
@@ -72,13 +73,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        
+
       - name: Connect deploy key
         uses: cloudtype-github-actions/connect@v1
         with:
           token: ${{ secrets.CLOUD_TYPE_TOKEN }}
           ghtoken: ${{ secrets.GHP_TOKEN_NOREPLY32 }}
-          
+
       - name: Deploy
         uses: cloudtype-github-actions/deploy@v1
         with:
