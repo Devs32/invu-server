@@ -49,7 +49,7 @@ jobs:
           -Dsonar.sources=src/main/java
           -Dsonar.tests=src/test/java
           -Dsonar.java.binaries=build/classes/java/main
-          -Dsonar.java.test.binaries=build/java/test
+          -Dsonar.java.test.binaries=build/classes/java/test
           -Dsonar.java.source=21
           -Dsonar.verbose=true
       
