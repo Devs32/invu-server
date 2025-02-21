@@ -39,7 +39,6 @@ jobs:
           -Dsonar.projectKey=Devs32_invu-server
           -Dsonar.sources=src/main/java
           -Dsonar.tests=src/test/java
-          -Dsonar.test.exclusions=**/*Test.java
           -Dsonar.java.binaries=build/classes
           -Dsonar.java.test.binaries=build/test-classes
           -Dsonar.java.source=21
