@@ -29,8 +29,20 @@ jobs:
     - name: Build with Gradle Wrapper
       run: ./gradlew build
 
-    - name: Sonarqube scan
-      run: ./gradlew test jacocoTestReport sonarqube
+    - name: SonarQube Cloud scan
+      uses: SonarSource/sonarcloud-github-action@v4.0.0
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        projectBaseDir: app/src
+        args: >
+          -Dsonar.organization=devs32
+          -Dsonar.projectKey=Devs32_invu-server
+          -Dsonar.python.coverage.reportPaths=coverage.xml
+          -Dsonar.sources=lib/
+          -Dsonar.tests=tests/
+          -Dsonar.test.exclusions=tests/**
+          -Dsonar.verbose=true  
       
     - name: Log in to GitHub Container Registry (GHCR)
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
