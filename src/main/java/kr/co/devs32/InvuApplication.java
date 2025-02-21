@@ -1,4 +1,4 @@
-package kr.co.devs32.applcation;
+package kr.co.devs32;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
