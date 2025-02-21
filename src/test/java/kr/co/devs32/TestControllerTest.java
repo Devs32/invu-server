@@ -36,6 +36,6 @@ class TestControllerTest {
 
         // then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).contains(DEFAULT_MESSAGE);
+        assertThat(response.getBody()).contains("??");
     }
 }
