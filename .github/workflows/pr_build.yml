@@ -43,6 +43,3 @@ jobs:
           -Dsonar.java.test.binaries=build/classes/java/test
           -Dsonar.java.source=21
           -Dsonar.verbose=true
-        
-    
-      
