@@ -1,4 +1,4 @@
-name: build and deploy
+name: main brainch build and deploy
 
 on:
   push:
