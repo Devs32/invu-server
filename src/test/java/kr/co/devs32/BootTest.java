@@ -1,6 +1,6 @@
 package kr.co.devs32;
 
-import static kr.co.devs32.TestController.DEFAULT_MESSAGE;
+import static kr.co.devs32.web.controller.TestController.DEFAULT_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Disabled;
@@ -11,8 +11,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import kr.co.devs32.applcation.InvuApplication;
 
 @Disabled
 @SpringBootTest(
