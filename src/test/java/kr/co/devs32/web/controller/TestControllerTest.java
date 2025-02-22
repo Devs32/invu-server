@@ -1,4 +1,4 @@
-package kr.co.devs32;
+package kr.co.devs32.web.controller;
 
 import static kr.co.devs32.web.controller.TestController.DEFAULT_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,8 +10,6 @@ import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
-
-import kr.co.devs32.web.controller.TestController;
 
 @WebMvcTest(TestController.class)
 class TestControllerTest {
