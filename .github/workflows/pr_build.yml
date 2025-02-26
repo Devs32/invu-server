@@ -29,8 +29,8 @@ jobs:
     - name: Build with Gradle Wrapper
       run: ./gradlew build
 
-    - name: SonarQube Cloud scan
-      uses: SonarSource/sonarcloud-github-action@v4.0.0
+    - name: Analyze with SonarCloud
+      uses: SonarSource/sonarqube-scan-action@v5.0.0
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
