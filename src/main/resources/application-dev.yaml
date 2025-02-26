@@ -1,15 +1,12 @@
 spring:
-    application:
-        name: MySpringBootApp  # 애플리케이션 이름 설정
-
     config:
         activate:
             on-profile: dev
 
     datasource:
-        url: jdbc:mariadb://svc.sel4.cloudtype.app:32389/invu
-        username: devs32
-        password: 1989DEVS#@
+        url: ${url}
+        username: ${username}
+        password: ${password}
         driver-class-name: org.mariadb.jdbc.Driver
 
     jpa:
