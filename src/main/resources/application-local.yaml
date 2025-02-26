@@ -4,7 +4,7 @@ spring:
             on-profile: local
 
     datasource:
-        url: ${url}
+        url: jdbc:mariadb://svc.sel4.cloudtype.app:32389/invu
         username: ${username}
         password: ${password}
         driver-class-name: org.mariadb.jdbc.Driver

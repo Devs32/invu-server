@@ -3,7 +3,7 @@ spring:
         name: InvuApp  # 애플리케이션 이름 설정
 
     datasource:
-        url: ${url}
+        url: jdbc:mariadb://svc.sel4.cloudtype.app:32389/invu
         username: ${username}
         password: ${password}
         driver-class-name: org.mariadb.jdbc.Driver
