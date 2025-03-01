@@ -1,4 +1,4 @@
-name: main branch test and deploy
+name: MAIN - Deploy
 
 on:
   push:
@@ -38,8 +38,8 @@ jobs:
     - name: Build with Gradle Wrapper
       run: ./gradlew build
 
-    - name: SonarQube Cloud scan
-      uses: SonarSource/sonarcloud-github-action@v4.0.0
+    - name: Analyze with SonarCloud
+      uses: SonarSource/sonarqube-scan-action@v5.0.0
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
@@ -96,6 +96,10 @@ jobs:
                   value: -Xms256m -Xmx512m
                 - name: SPRING_PROFILES_ACTIVE
                   value: dev
+                - name: username
+                  vale ${{ secrets.DB_USERNAME }}
+                - name: password
+                  vale ${{ secrets.DB_PASSWORD }}
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
