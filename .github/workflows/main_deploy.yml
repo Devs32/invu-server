@@ -93,9 +93,7 @@ jobs:
               ports: 8080
               env:
                 - name: JAVA_OPTS
-                  value: -Xms256m -Xmx512m
-                - name: SPRING_PROFILES_ACTIVE
-                  value: dev
+                  value: -Xms256m -Xmx512m -Dspring.profiles.active=dev
                 - name: db_username
                   vale ${{ secrets.DB_USERNAME }}
                 - name: db_password
