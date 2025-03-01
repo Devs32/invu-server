@@ -5,8 +5,8 @@ spring:
 
     datasource:
         url: jdbc:mariadb://mariadb:3306/invu
-        username: ${username}
-        password: ${password}
+        username: ${db_username}
+        password: ${db_username}
         driver-class-name: org.mariadb.jdbc.Driver
 
     jpa:
