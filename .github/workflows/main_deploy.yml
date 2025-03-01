@@ -95,9 +95,9 @@ jobs:
                 - name: JAVA_OPTS
                   value: -Xms256m -Xmx512m -Dspring.profiles.active=dev
                 - name: db_username
-                  vale ${{ secrets.DB_USERNAME }}
+                  vale: ${{ secrets.DB_USERNAME }}
                 - name: db_password
-                  vale ${{ secrets.DB_PASSWORD }}
+                  vale: ${{ secrets.DB_PASSWORD }}
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
