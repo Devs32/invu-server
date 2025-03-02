@@ -97,9 +97,9 @@ jobs:
                 - name: SPRING_PROFILES_ACTIVE
                   value: dev
                 - name: db_username
-                  vale: ${{ secrets.DB_USERNAME }}
+                  value: ${{ secrets.DB_USERNAME }}
                 - name: db_password
-                  vale: ${{ secrets.DB_PASSWORD }}
+                  value: ${{ secrets.DB_PASSWORD }}
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
