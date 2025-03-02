@@ -96,9 +96,9 @@ jobs:
                   value: -Xms256m -Xmx512m
                 - name: SPRING_PROFILES_ACTIVE
                   value: dev
-                - name: db_username
+                - name: username
                   value: ${{ secrets.DB_USERNAME }}
-                - name: db_password
+                - name: password
                   value: ${{ secrets.DB_PASSWORD }}
             context:
               git:
