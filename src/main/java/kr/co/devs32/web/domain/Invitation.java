@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.util.Date;
 
 @Entity
-@Table(name = "Invitation")
+@Table(name = "invitation")
 @Getter
 public class Invitation {
 
@@ -17,8 +17,8 @@ public class Invitation {
     @Column(name = "invu_title")
     private String title;
 
-    @Column(name = "invu_message")
-    private String message;
+    @Column(name = "invu_json")
+    private String invuJson;
     @Column(name = "invu_code")
     private String code;
     @Column(name = "created_at", insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
