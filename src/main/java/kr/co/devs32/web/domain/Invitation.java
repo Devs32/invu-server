@@ -1,6 +1,7 @@
 package kr.co.devs32.web.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.Date;
@@ -8,6 +9,7 @@ import java.util.Date;
 @Entity
 @Table(name = "invitation")
 @Getter
+@AllArgsConstructor
 public class Invitation {
 
     @Id

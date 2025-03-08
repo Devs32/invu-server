@@ -1,5 +1,7 @@
 package kr.co.devs32.web.service;
 
+import jakarta.persistence.EntityNotFoundException;
+import kr.co.devs32.web.domain.Invitation;
 import kr.co.devs32.web.repository.InvitationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +16,8 @@ public class InvitationService {
     /**
      * 초대장 조회 by ID
      */
-    public Optional findInvitaion(Long id) {
-        return invitationRepository.findById(id);
+    public Invitation findInvitation(Long id) {
+        return invitationRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Invitation not found with id: "+ id));
     }
 }

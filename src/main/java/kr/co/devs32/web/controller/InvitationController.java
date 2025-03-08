@@ -17,6 +17,6 @@ public class InvitationController {
     //초대장 조회
     @GetMapping("{id}")
     public ApiResponse getInvitation(@PathVariable(name = "id") Long id) {
-        return ApiResponse.success(invitationService.findInvitaion(id));
+        return ApiResponse.success(invitationService.findInvitation(id));
     }
 }
