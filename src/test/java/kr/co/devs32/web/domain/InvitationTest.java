@@ -10,23 +10,5 @@ class InvitationTest {
     void getId() {
     }
 
-    @Test
-    void getTitle() {
-    }
 
-    @Test
-    void getInvuJson() {
-    }
-
-    @Test
-    void getCode() {
-    }
-
-    @Test
-    void getCreatedAt() {
-    }
-
-    @Test
-    void getUpdatedAt() {
-    }
 }
