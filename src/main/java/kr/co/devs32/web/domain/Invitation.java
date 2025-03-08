@@ -3,6 +3,7 @@ package kr.co.devs32.web.domain;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -10,6 +11,7 @@ import java.util.Date;
 @Table(name = "invitation")
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Invitation {
 
     @Id
