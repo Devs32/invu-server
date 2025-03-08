@@ -2,9 +2,14 @@ spring:
     application:
         name: InvuApp  # 애플리케이션 이름 설정
 
+    jackson:
+        time-zone: Asia/Seoul
+
     jpa:
         hibernate:
             ddl-auto: none
+            naming:
+                physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         properties:
             hibernate:
                 format_sql: true
