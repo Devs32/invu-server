@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import kr.co.devs32.service.file.FileService;
+import kr.co.devs32.web.service.file.FileService;
 import lombok.RequiredArgsConstructor;
 
 @RequestMapping("api/v1/files")
