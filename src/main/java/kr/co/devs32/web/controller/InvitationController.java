@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class InvitationController {
     private final InvitationService invitationService;
-    private final GuestService geustService;
+    private final GuestService guestService;
 
     //초대장 조회
     @GetMapping("{id}")
@@ -27,18 +27,18 @@ public class InvitationController {
     @PostMapping("{id}/guests")
     public ApiResponse saveGuest(@PathVariable(name = "id") Long id, @RequestBody GuestRequestDto dto) {
         //이름, 참석인원, 동행인(여러명 가능), 식사여부(예정,안함,미정)
-        return ApiResponse.success(geustService.save(dto));
+        return ApiResponse.success(guestService.save(dto));
     }
 
     //게스트 리스트 조회
     @GetMapping("{id}/guests")
     public ApiResponse getGuestsList(@PathVariable(name = "id") Long id){
-        return ApiResponse.success(geustService.findAll());
+        return ApiResponse.success(guestService.findAll());
     }
 
     //특정 게스트 정보 조회
     @GetMapping("{id}/guests/{name}")
     public ApiResponse getGuestInfo(@PathVariable(name = "id") Long id, @PathVariable(name = "name") String name){
-        return ApiResponse.success(geustService.findGuestByUniqueName(name));
+        return ApiResponse.success(guestService.findGuestByUniqueName(name));
     }
 }
