@@ -30,6 +30,8 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.30'  // Lombok을 annotation processor로 설정
     testImplementation 'org.projectlombok:lombok:1.18.30'   // 테스트 환경에서도 Lombok 사용 가능하게 설정
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+    implementation 'org.apache.commons:commons-lang3:3.12.0' // 랜덤스트링
+
 }
 
 test {
