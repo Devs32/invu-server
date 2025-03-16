@@ -1,7 +1,12 @@
 package kr.co.devs32.web.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityNotFoundException;
+import kr.co.devs32.web.domain.AttendanceStatus;
+import kr.co.devs32.web.domain.Guest;
 import kr.co.devs32.web.domain.Invitation;
+import kr.co.devs32.web.dto.GuestRequestDto;
+import kr.co.devs32.web.service.GuestService;
 import kr.co.devs32.web.service.InvitationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +19,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Date;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,6 +35,10 @@ class InvitationControllerTest {
 
     @MockBean
     private InvitationService invitationService;
+
+    @MockBean
+    private GuestService guestService;
+
 
     @Test
     void getInvitation_Success() throws Exception {
@@ -60,5 +71,42 @@ class InvitationControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Invitation not found with id: 999"));
     }
+
+    @Test
+    public void testSaveGuest() throws Exception {
+        // Given
+        GuestRequestDto dto = new GuestRequestDto();
+        dto.setGuestName("John Doe");
+        dto.setAttendCount(2);
+        dto.setStatus("Y");
+
+        Guest savedGuest = new Guest(1L, "John Doe", 2, "", AttendanceStatus.Y, new Date(), new Date(), "unique123");
+
+        when(guestService.save(any(GuestRequestDto.class))).thenReturn(savedGuest);
+
+        // When & Then
+        mockMvc.perform(post("/api/v1/invitation/6/guests")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(dto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.guestName").value("John Doe"))
+                .andExpect(jsonPath("$.data.attendCount").value(2))
+                .andExpect(jsonPath("$.data.uniqueName").value("unique123"));
+    }
+
+    @Test
+    public void testGetGuestByUniqueName() throws Exception {
+        // Given
+        Guest guest = new Guest(1L, "Jane Doe", 1, "", AttendanceStatus.Y, new Date(), new Date(), "unique123");
+
+        when(guestService.findGuestByUniqueName("unique123")).thenReturn(guest);
+
+        // When & Then
+        mockMvc.perform(get("/api/v1/invitation/6/guests/unique123"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.guestName").value("Jane Doe"))
+                .andExpect(jsonPath("$.data.uniqueName").value("unique123"));
+    }
+
 }
 
