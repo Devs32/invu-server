@@ -100,6 +100,14 @@ jobs:
                   value: ${{ secrets.DB_USERNAME }}
                 - name: password
                   value: ${{ secrets.DB_PASSWORD }}
+                - name: cloudflare.r2.endpoint
+                  value: ${{ secrets.CLOUD_FLARE_R2_END_POINT }}
+                - name: cloudflare.r2.access-key
+                  value: ${{ secrets.CLOUD_FLARE_R2_ACCESS_KEY }}
+                - name: cloudflare.r2.secret-key
+                  value: ${{ secrets.CLOUD_FLARE_R2_SECRET_KEY }}
+                - name: cloudflare.r2.access-url
+                  value: ${{ secrets.CLOUD_FLARE_R2_ACCESS_URL }}
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
