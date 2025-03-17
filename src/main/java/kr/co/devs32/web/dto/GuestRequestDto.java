@@ -10,6 +10,7 @@ import java.util.Date;
 public class GuestRequestDto {
     private String guestName;
     private int attendCount;
+    private String nameNotes;
     private String status;
     private String uniqueName;
 

@@ -78,9 +78,9 @@ class InvitationControllerTest {
         GuestRequestDto dto = new GuestRequestDto();
         dto.setGuestName("John Doe");
         dto.setAttendCount(2);
-        dto.setStatus("Y");
+        dto.setStatus("YES");
 
-        Guest savedGuest = new Guest(1L, "John Doe", 2, "", AttendanceStatus.Y, new Date(), new Date(), "unique123");
+        Guest savedGuest = new Guest(1L, "John Doe", 2, "", AttendanceStatus.YES, new Date(), new Date(), "unique123");
 
         when(guestService.save(any(GuestRequestDto.class))).thenReturn(savedGuest);
 
@@ -97,7 +97,7 @@ class InvitationControllerTest {
     @Test
     public void testGetGuestByUniqueName() throws Exception {
         // Given
-        Guest guest = new Guest(1L, "Jane Doe", 1, "", AttendanceStatus.Y, new Date(), new Date(), "unique123");
+        Guest guest = new Guest(1L, "Jane Doe", 1, "", AttendanceStatus.YES, new Date(), new Date(), "unique123");
 
         when(guestService.findGuestByUniqueName("unique123")).thenReturn(guest);
 

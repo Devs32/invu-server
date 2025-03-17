@@ -40,7 +40,7 @@ class GuestServiceTest {
         dto.setAttendCount(2);
         dto.setStatus("Y");
 
-        Guest guest = new Guest(1L, "John Doe", 2, "", AttendanceStatus.Y, new Date(), new Date(), "unique123");
+        Guest guest = new Guest(1L, "John Doe", 2, "", AttendanceStatus.YES, new Date(), new Date(), "unique123");
 
         when(guestRepository.save(any(Guest.class))).thenReturn(guest);
 
@@ -55,7 +55,7 @@ class GuestServiceTest {
     @Test
     public void testFindGuestByUniqueName() {
         // Given
-        Guest guest = new Guest(null, "Jane Doe", 1, "", AttendanceStatus.Y, new Date(), new Date(), "unique123");
+        Guest guest = new Guest(null, "Jane Doe", 1, "", AttendanceStatus.YES, new Date(), new Date(), "unique123");
 
         when(guestRepository.findGuestByUniqueName("unique123")).thenReturn(guest);
 
