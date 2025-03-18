@@ -25,7 +25,7 @@ server:
 cloudflare:
     r2:
         bucket-name: invu
-        endpoint: ${cloudflare.r2.endpoint}
-        access-key: ${cloudflare.r2.endpoint}
-        secret-key: ${cloudflare.r2.endpoint}
-        access-url: ${cloudflare.r2.access-url}
+        endpoint: ${cloudflare_r2_endpoint}
+        access-key: ${cloudflare_r2_access_key}
+        secret-key: ${cloudflare_r2_secret_key}
+        access-url: ${cloudflare_r2_access_url}
