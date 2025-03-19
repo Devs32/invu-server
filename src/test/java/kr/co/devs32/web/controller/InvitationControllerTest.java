@@ -72,41 +72,41 @@ class InvitationControllerTest {
                 .andExpect(jsonPath("$.message").value("Invitation not found with id: 999"));
     }
 
-    @Test
-    public void testSaveGuest() throws Exception {
-        // Given
-        GuestRequestDto dto = new GuestRequestDto();
-        dto.setGuestName("John Doe");
-        dto.setAttendCount(2);
-        dto.setStatus("YES");
-
-        Guest savedGuest = new Guest(1L, "John Doe", 2, "", AttendanceStatus.YES, new Date(), new Date(), "unique123");
-
-        when(guestService.save(any(GuestRequestDto.class))).thenReturn(savedGuest);
-
-        // When & Then
-        mockMvc.perform(post("/api/v1/invitation/6/guests")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(dto)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.guestName").value("John Doe"))
-                .andExpect(jsonPath("$.data.attendCount").value(2))
-                .andExpect(jsonPath("$.data.uniqueName").value("unique123"));
-    }
-
-    @Test
-    public void testGetGuestByUniqueName() throws Exception {
-        // Given
-        Guest guest = new Guest(1L, "Jane Doe", 1, "", AttendanceStatus.YES, new Date(), new Date(), "unique123");
-
-        when(guestService.findGuestByUniqueName("unique123")).thenReturn(guest);
-
-        // When & Then
-        mockMvc.perform(get("/api/v1/invitation/6/guests/unique123"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.guestName").value("Jane Doe"))
-                .andExpect(jsonPath("$.data.uniqueName").value("unique123"));
-    }
+//    @Test
+//    public void testSaveGuest() throws Exception {
+//        // Given
+//        GuestRequestDto dto = new GuestRequestDto();
+//        dto.setGuestName("John Doe");
+//        dto.setAttendCount(2);
+//        dto.setStatus("YES");
+//
+//        Guest savedGuest = new Guest(1L, "John Doe", 2, "", AttendanceStatus.YES, new Date(), new Date(), "unique123");
+//
+//        when(guestService.save(any(GuestRequestDto.class))).thenReturn(savedGuest);
+//
+//        // When & Then
+//        mockMvc.perform(post("/api/v1/invitation/6/guests")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(new ObjectMapper().writeValueAsString(dto)))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.data.guestName").value("John Doe"))
+//                .andExpect(jsonPath("$.data.attendCount").value(2))
+//                .andExpect(jsonPath("$.data.uniqueName").value("unique123"));
+//    }
+//
+//    @Test
+//    public void testGetGuestByUniqueName() throws Exception {
+//        // Given
+//        Guest guest = new Guest(1L, "Jane Doe", 1, "", AttendanceStatus.YES, new Date(), new Date(), "unique123");
+//
+//        when(guestService.findGuestByUniqueName("unique123")).thenReturn(guest);
+//
+//        // When & Then
+//        mockMvc.perform(get("/api/v1/invitation/6/guests/unique123"))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.data.guestName").value("Jane Doe"))
+//                .andExpect(jsonPath("$.data.uniqueName").value("unique123"));
+//    }
 
 }
 

@@ -27,18 +27,20 @@ public class InvitationController {
     @PostMapping("{id}/guests")
     public ApiResponse saveGuest(@PathVariable(name = "id") Long id, @RequestBody GuestRequestDto dto) {
         //이름, 참석인원, 동행인(여러명 가능), 식사여부(예정,안함,미정)
-        return ApiResponse.success(guestService.save(dto));
+        dto.setInvuId(id);
+        guestService.save(dto);
+        return ApiResponse.successCreated("Created");
     }
 
     //게스트 리스트 조회
     @GetMapping("{id}/guests")
     public ApiResponse getGuestsList(@PathVariable(name = "id") Long id){
-        return ApiResponse.success(guestService.findAll());
+        return ApiResponse.success(guestService.findAllByInvuId(id));
     }
 
     //특정 게스트 정보 조회
     @GetMapping("{id}/guests/{name}")
     public ApiResponse getGuestInfo(@PathVariable(name = "id") Long id, @PathVariable(name = "name") String name){
-        return ApiResponse.success(guestService.findGuestByUniqueName(name));
+        return ApiResponse.success(guestService.findGuestByInvuIdAndUniqueName(id, name));
     }
 }

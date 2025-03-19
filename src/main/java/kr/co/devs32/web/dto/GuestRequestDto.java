@@ -13,6 +13,7 @@ public class GuestRequestDto {
     private String nameNotes;
     private String status;
     private String uniqueName;
+    private Long invuId;
 
     public Guest toEntity() {
         return new Guest(
@@ -23,7 +24,8 @@ public class GuestRequestDto {
                 AttendanceStatus.valueOf(this.status),
                 new Date(),
                 null,
-                this.uniqueName
+                this.uniqueName,
+                this.invuId
         );
     }
 

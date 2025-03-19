@@ -26,7 +26,7 @@ public class Guest {
     private String nameNotes;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", columnDefinition = "CHAR(1)", nullable = false)
+    @Column(name = "status", columnDefinition = "VARCHAR(10)", nullable = false)
     private AttendanceStatus status;
 
     @Column(name = "created_at")
@@ -38,4 +38,6 @@ public class Guest {
     @Column(name = "unique_name")
     private String uniqueName;
 
+    @Column(name = "invu_id")
+    private Long invuId;
 }
