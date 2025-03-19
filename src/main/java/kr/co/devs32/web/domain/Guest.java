@@ -2,6 +2,7 @@ package kr.co.devs32.web.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.util.Date;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Guest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -18,13 +18,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Date;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(InvitationController.class)
@@ -72,41 +73,66 @@ class InvitationControllerTest {
                 .andExpect(jsonPath("$.message").value("Invitation not found with id: 999"));
     }
 
-//    @Test
-//    public void testSaveGuest() throws Exception {
-//        // Given
-//        GuestRequestDto dto = new GuestRequestDto();
-//        dto.setGuestName("John Doe");
-//        dto.setAttendCount(2);
-//        dto.setStatus("YES");
-//
-//        Guest savedGuest = new Guest(1L, "John Doe", 2, "", AttendanceStatus.YES, new Date(), new Date(), "unique123");
-//
-//        when(guestService.save(any(GuestRequestDto.class))).thenReturn(savedGuest);
-//
-//        // When & Then
-//        mockMvc.perform(post("/api/v1/invitation/6/guests")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(new ObjectMapper().writeValueAsString(dto)))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.data.guestName").value("John Doe"))
-//                .andExpect(jsonPath("$.data.attendCount").value(2))
-//                .andExpect(jsonPath("$.data.uniqueName").value("unique123"));
-//    }
-//
-//    @Test
-//    public void testGetGuestByUniqueName() throws Exception {
-//        // Given
-//        Guest guest = new Guest(1L, "Jane Doe", 1, "", AttendanceStatus.YES, new Date(), new Date(), "unique123");
-//
-//        when(guestService.findGuestByUniqueName("unique123")).thenReturn(guest);
-//
-//        // When & Then
-//        mockMvc.perform(get("/api/v1/invitation/6/guests/unique123"))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.data.guestName").value("Jane Doe"))
-//                .andExpect(jsonPath("$.data.uniqueName").value("unique123"));
-//    }
+    @Test
+    void saveGuest() throws Exception {
+        // given
+        Long invitationId = 6L;
+        GuestRequestDto dto = new GuestRequestDto();
+        dto.setGuestName("홍길동");
+        dto.setAttendCount(2);
+        dto.setNameNotes("동행1,동행2");
+        dto.setStatus("YES");
+
+        String requestBody = new ObjectMapper().writeValueAsString(dto);
+
+        // when & then
+        mockMvc.perform(post("/api/v1/invitation/{id}/guests", invitationId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.message").value("Created"));
+
+        verify(guestService, times(1)).save(any(GuestRequestDto.class));
+    }
+
+    @Test
+    void getGuestsList() throws Exception {
+        // given
+        Long invitationId = 6L;
+        List<Guest> guestList = List.of(
+                Guest.builder().guestName("홍길동").build(),
+                Guest.builder().guestName("김철수").build()
+        );
+
+        when(guestService.findAllByInvuId(invitationId)).thenReturn(guestList);
+
+        // when & then
+        mockMvc.perform(get("/api/v1/invitation/{id}/guests", invitationId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data[0].guestName").value("홍길동"))
+                .andExpect(jsonPath("$.data[1].guestName").value("김철수"));
+
+        verify(guestService, times(1)).findAllByInvuId(invitationId);
+    }
+
+    @Test
+    void getGuestInfo() throws Exception {
+        // given
+        Long invitationId = 6L;
+        String uniqueName = "ABC12345";
+        Guest guest = Guest.builder().guestName("홍길동").uniqueName(uniqueName).build();
+
+        when(guestService.findGuestByInvuIdAndUniqueName(invitationId, uniqueName)).thenReturn(guest);
+
+        // when & then
+        mockMvc.perform(get("/api/v1/invitation/{id}/guests/{name}", invitationId, uniqueName))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.guestName").value("홍길동"));
+
+        verify(guestService, times(1)).findGuestByInvuIdAndUniqueName(invitationId, uniqueName);
+    }
+
+
 
 }
 
