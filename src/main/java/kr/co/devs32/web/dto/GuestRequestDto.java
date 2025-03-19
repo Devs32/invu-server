@@ -3,6 +3,7 @@ package kr.co.devs32.web.dto;
 import kr.co.devs32.web.domain.AttendanceStatus;
 import kr.co.devs32.web.domain.Guest;
 import lombok.Data;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.Date;
 
@@ -16,6 +17,9 @@ public class GuestRequestDto {
     private Long invuId;
 
     public Guest toEntity() {
+        if (this.uniqueName == null || this.uniqueName.isEmpty()) {
+            this.uniqueName = RandomStringUtils.randomAlphanumeric(8);  // Apache commons
+        }
         return new Guest(
                 null,
                 this.guestName,

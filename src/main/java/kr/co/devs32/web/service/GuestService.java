@@ -9,7 +9,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +16,6 @@ public class GuestService {
     private final GuestRepository guestRepository;
 
     public void save(GuestRequestDto dto){
-        dto.setUniqueName(RandomStringUtils.randomAlphanumeric(8));
         Guest guest = dto.toEntity();
         guestRepository.save(guest);
     }

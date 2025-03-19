@@ -1,69 +1,106 @@
 package kr.co.devs32.web.service;
 
-import kr.co.devs32.web.domain.AttendanceStatus;
+import jakarta.persistence.EntityNotFoundException;
 import kr.co.devs32.web.domain.Guest;
 import kr.co.devs32.web.dto.GuestRequestDto;
 import kr.co.devs32.web.repository.GuestRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
-import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.*;
 
-
-
-
-@Transactional // 트랜잭션 추가 (테스트 후 자동 롤백)
 @ExtendWith(MockitoExtension.class)
 class GuestServiceTest {
+    @Mock
+    private GuestRepository guestRepository;
 
     @InjectMocks
     private GuestService guestService;
 
-    @Mock
-    private GuestRepository guestRepository;
+    private GuestRequestDto guestRequestDto;
+    private Guest guest;
 
-//    @Test
-//    public void testSaveGuest() {
-//        // Given
-//        GuestRequestDto dto = new GuestRequestDto();
-//        dto.setGuestName("John Doe");
-//        dto.setAttendCount(2);
-//        dto.setStatus("Y");
-//
-//        Guest guest = new Guest(1L, "John Doe", 2, "", AttendanceStatus.YES, new Date(), new Date(), "unique123");
-//
-//        when(guestRepository.save(any(Guest.class))).thenReturn(guest);
-//
-//        // When
-//        Guest savedGuest = guestService.save(dto);
-//
-//        // Then
-//        assertNotNull(savedGuest);
-//        assertEquals("John Doe", savedGuest.getGuestName());
-//    }
+    @BeforeEach
+    void setUp() {
+        guestRequestDto = new GuestRequestDto();
+        guestRequestDto.setInvuId(6L);
+        guestRequestDto.setGuestName("Test Guest");
+        guestRequestDto.setAttendCount(2);
+        guestRequestDto.setNameNotes("테스터1,테스터2");
+        guestRequestDto.setStatus("YES");
 
-//    @Test
-//    public void testFindGuestByUniqueName() {
-//        // Given
-//        Guest guest = new Guest(null, "Jane Doe", 1, "", AttendanceStatus.YES, new Date(), new Date(), "unique123");
-//
-//        when(guestRepository.findGuestByUniqueName("unique123")).thenReturn(guest);
-//
-//        // When
-//        Guest foundGuest = guestService.findGuestByUniqueName("unique123");
-//
-//        // Then
-//        assertNotNull(foundGuest);
-//        assertEquals("Jane Doe", foundGuest.getGuestName());
-//    }
+        guest = guestRequestDto.toEntity();
+    }
+
+    @Test
+    void save() {
+        // when
+        guestService.save(guestRequestDto);
+
+        // then
+        verify(guestRepository, times(1)).save(any(Guest.class));
+        assertThat(guestRequestDto.getUniqueName()).hasSize(8); // 랜덤 uniqueName이 8자리로 생성됐는지 확인
+
+    }
+
+    @Test
+    void findAllByInvuId_success() {
+        // given
+        when(guestRepository.findAllByInvuId(6L)).thenReturn(List.of(guest));
+
+        // when
+        List<Guest> result = guestService.findAllByInvuId(6L);
+
+        // then
+        assertThat(result).isNotEmpty();
+        assertThat(result.get(0).getInvuId()).isEqualTo(6L);
+    }
+
+    @Test
+    void findAllByInvuId_notFound() {
+        // given
+        when(guestRepository.findAllByInvuId(6L)).thenReturn(Collections.emptyList());
+
+        // when / then
+        assertThatThrownBy(() -> guestService.findAllByInvuId(6L))
+                .isInstanceOf(EntityNotFoundException.class)
+                .hasMessageContaining("해당 invuId로 조회된 리스트가 없습니다.");
+    }
+    @Test
+    void findGuestByInvuIdAndUniqueName_success() {
+
+        // given
+        Guest testGuest = guestRequestDto.toEntity();  // uniqueName 자동 세팅됨
+        when(guestRepository.findGuestByInvuIdAndUniqueName(1L, testGuest.getUniqueName()))
+                .thenReturn(Optional.of(testGuest));
+
+        // when
+        Guest result = guestService.findGuestByInvuIdAndUniqueName(1L, testGuest.getUniqueName());
+
+        // then
+        assertThat(result).isNotNull();
+        assertThat(result.getUniqueName()).isEqualTo(testGuest.getUniqueName());
+    }
+
+    @Test
+    void findGuestByInvuIdAndUniqueName_notFound() {
+        // given
+        when(guestRepository.findGuestByInvuIdAndUniqueName(1L, "NOT_EXIST"))
+                .thenReturn(Optional.empty());
+
+        // when / then
+        assertThatThrownBy(() -> guestService.findGuestByInvuIdAndUniqueName(1L, "NOT_EXIST"))
+                .isInstanceOf(EntityNotFoundException.class)
+                .hasMessageContaining("GuestInfo not found with UniqueName: NOT_EXIST");
+    }
 }
