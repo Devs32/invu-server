@@ -93,13 +93,21 @@ jobs:
               ports: 8080
               env:
                 - name: JAVA_OPTS
-                  value: -Xms256m -Xmx512m
+                  value: -Xms256m -Xmx512m -Dcloudflare.r2.endpoint=${{ secrets.CLOUD_FLARE_R2_END_POINT }} -Dcloudflare.r2.access-key=${{ secrets.CLOUD_FLARE_R2_ACCESS_KEY }} -Dcloudflare.r2.secret-key=${{ secrets.CLOUD_FLARE_R2_SECRET_KEY }} -Dcloudflare.r2.access-url=${{ secrets.CLOUD_FLARE_R2_ACCESS_URL }}
                 - name: SPRING_PROFILES_ACTIVE
                   value: dev
                 - name: username
                   value: ${{ secrets.DB_USERNAME }}
                 - name: password
                   value: ${{ secrets.DB_PASSWORD }}
+                - name: cloudflare_r2_endpoint
+                  value: ${{ secrets.CLOUD_FLARE_R2_END_POINT }}
+                - name: cloudflare_r2_access_key
+                  value: ${{ secrets.CLOUD_FLARE_R2_ACCESS_KEY }}
+                - name: cloudflare_r2_secret_key
+                  value: ${{ secrets.CLOUD_FLARE_R2_SECRET_KEY }}
+                - name: cloudflare_r2_access_url
+                  value: ${{ secrets.CLOUD_FLARE_R2_ACCESS_URL }}
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
