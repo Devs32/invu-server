@@ -1,7 +1,12 @@
 package kr.co.devs32.web.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityNotFoundException;
+import kr.co.devs32.web.domain.AttendanceStatus;
+import kr.co.devs32.web.domain.Guest;
 import kr.co.devs32.web.domain.Invitation;
+import kr.co.devs32.web.dto.GuestRequestDto;
+import kr.co.devs32.web.service.GuestService;
 import kr.co.devs32.web.service.InvitationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,11 +18,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Date;
+import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(InvitationController.class)
@@ -28,6 +36,10 @@ class InvitationControllerTest {
 
     @MockBean
     private InvitationService invitationService;
+
+    @MockBean
+    private GuestService guestService;
+
 
     @Test
     void getInvitation_Success() throws Exception {
@@ -60,5 +72,67 @@ class InvitationControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Invitation not found with id: 999"));
     }
+
+    @Test
+    void saveGuest() throws Exception {
+        // given
+        Long invitationId = 6L;
+        GuestRequestDto dto = new GuestRequestDto();
+        dto.setGuestName("홍길동");
+        dto.setAttendCount(2);
+        dto.setNameNotes("동행1,동행2");
+        dto.setStatus("YES");
+
+        String requestBody = new ObjectMapper().writeValueAsString(dto);
+
+        // when & then
+        mockMvc.perform(post("/api/v1/invitation/{id}/guests", invitationId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.message").value("Created"));
+
+        verify(guestService, times(1)).save(any(GuestRequestDto.class));
+    }
+
+    @Test
+    void getGuestsList() throws Exception {
+        // given
+        Long invitationId = 6L;
+        List<Guest> guestList = List.of(
+                Guest.builder().guestName("홍길동").build(),
+                Guest.builder().guestName("김철수").build()
+        );
+
+        when(guestService.findAllByInvuId(invitationId)).thenReturn(guestList);
+
+        // when & then
+        mockMvc.perform(get("/api/v1/invitation/{id}/guests", invitationId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data[0].guestName").value("홍길동"))
+                .andExpect(jsonPath("$.data[1].guestName").value("김철수"));
+
+        verify(guestService, times(1)).findAllByInvuId(invitationId);
+    }
+
+    @Test
+    void getGuestInfo() throws Exception {
+        // given
+        Long invitationId = 6L;
+        String uniqueName = "ABC12345";
+        Guest guest = Guest.builder().guestName("홍길동").uniqueName(uniqueName).build();
+
+        when(guestService.findGuestByInvuIdAndUniqueName(invitationId, uniqueName)).thenReturn(guest);
+
+        // when & then
+        mockMvc.perform(get("/api/v1/invitation/{id}/guests/{name}", invitationId, uniqueName))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.guestName").value("홍길동"));
+
+        verify(guestService, times(1)).findGuestByInvuIdAndUniqueName(invitationId, uniqueName);
+    }
+
+
+
 }
 

@@ -25,4 +25,10 @@ public class ApiResponse<T> {
     public static ApiResponse<String> error(int status, String message) {
         return new ApiResponse<>(status, message, null);
     }
+
+    // 성공 응답 (201 CREATED, message만)
+    public static ApiResponse<String> successCreated(String message) {
+        return new ApiResponse<>(201, message, null);
+    }
+
 }
