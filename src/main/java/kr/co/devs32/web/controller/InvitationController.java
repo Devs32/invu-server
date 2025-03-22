@@ -1,8 +1,10 @@
 package kr.co.devs32.web.controller;
 
 
+import kr.co.devs32.web.dto.GuestBookRequestDto;
 import kr.co.devs32.web.dto.GuestRequestDto;
 import kr.co.devs32.web.response.ApiResponse;
+import kr.co.devs32.web.service.GuestBookService;
 import kr.co.devs32.web.service.GuestService;
 import kr.co.devs32.web.service.InvitationService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 public class InvitationController {
     private final InvitationService invitationService;
     private final GuestService guestService;
+
+    private final GuestBookService guestBookService;
 
     //초대장 조회
     @GetMapping("{id}")
@@ -45,4 +49,15 @@ public class InvitationController {
     public ApiResponse getGuestInfo(@PathVariable(name = "id") Long id, @PathVariable(name = "name") String name){
         return ApiResponse.success(guestService.findGuestByInvuIdAndUniqueName(id, name));
     }
+
+    //방명록 저장
+    @PostMapping("{id}/guestBooks")
+    public ResponseEntity<ApiResponse<String>> saveGuestBook(@PathVariable(name = "id") Long id , @RequestBody GuestBookRequestDto dto) {
+        dto.setInvuId(id);
+        guestBookService.save(dto);
+        ApiResponse<String> response = ApiResponse.successCreated("Created");
+        return ResponseEntity.status(201).body(response);
+    }
+
+    //방명록 리스트 조회
 }
