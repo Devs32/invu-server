@@ -60,4 +60,18 @@ public class InvitationController {
     }
 
     //방명록 리스트 조회
+    @GetMapping("{id}/guestBooks")
+    public ApiResponse getGuestBookList(@PathVariable(name = "id") Long id){
+        return ApiResponse.success(guestBookService.findAllGuestBookByInvuId(id));
+    }
+
+    //방명록 단건 조회
+    @GetMapping("{id}/guestBooks/{bookId}")
+    public ApiResponse getGuestBookInfo(@PathVariable(name = "id") Long invuId , @PathVariable(name = "bookId") Long bookId) {
+        return ApiResponse.success(guestBookService.findGuestBookByInvuIdAndId(invuId, bookId));
+    }
+
+
+
+
 }
