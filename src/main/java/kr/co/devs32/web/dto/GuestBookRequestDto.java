@@ -11,6 +11,7 @@ public class GuestBookRequestDto {
 
     private String guestName;
     private String password;
+    private int isVisible;
     private String message;
     private Long invuId;
 

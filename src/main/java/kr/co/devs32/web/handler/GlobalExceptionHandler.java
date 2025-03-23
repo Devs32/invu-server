@@ -21,4 +21,10 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error"));
     }
 
+    @ExceptionHandler(CustomException.BusinessException.class)
+    public ResponseEntity<ApiResponse> handleBusinessException(CustomException.BusinessException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.error(HttpStatus.BAD_REQUEST.value(),e.getMessage()));
+    }
+
 }

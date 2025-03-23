@@ -1,6 +1,8 @@
 package kr.co.devs32.web.controller;
 
 
+import jakarta.persistence.EntityNotFoundException;
+import kr.co.devs32.web.domain.GuestBook;
 import kr.co.devs32.web.dto.GuestBookRequestDto;
 import kr.co.devs32.web.dto.GuestRequestDto;
 import kr.co.devs32.web.response.ApiResponse;
@@ -69,6 +71,19 @@ public class InvitationController {
     @GetMapping("{id}/guestBooks/{bookId}")
     public ApiResponse getGuestBookInfo(@PathVariable(name = "id") Long invuId , @PathVariable(name = "bookId") Long bookId) {
         return ApiResponse.success(guestBookService.findGuestBookByInvuIdAndId(invuId, bookId));
+    }
+
+    //방명록 수정
+    @PostMapping("{id}/guestBooks/{bookId}")
+    public ApiResponse updateGuestBooks(@PathVariable(name = "id") Long invuId, @PathVariable(name = "bookId") Long bookId, @RequestBody GuestBookRequestDto dto){
+        guestBookService.updateGuestBookMessage(invuId, bookId, dto);
+        return ApiResponse.success("방명록 수정이 완료되었습니다.");
+    }
+
+    @PostMapping("{id}/guestBooks/delete/{bookId}")
+    public ApiResponse deleteGuestBook(@PathVariable(name = "id") Long invuId, @PathVariable(name = "bookId") Long bookId, @RequestBody GuestBookRequestDto dto) {
+        guestBookService.deleteGuestBook(invuId, bookId, dto);
+        return ApiResponse.success("방명록 삭제가 완료되었습니다.");
     }
 
 
