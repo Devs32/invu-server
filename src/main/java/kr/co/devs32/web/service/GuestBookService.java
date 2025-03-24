@@ -23,7 +23,7 @@ public class GuestBookService {
     }
 
     public List<GuestBook> findAllGuestBookByInvuId(Long id) {
-       List<GuestBook> bookList = guestBookRepository.findAllGuestBookByInvuId(id);
+       List<GuestBook> bookList = guestBookRepository.findAllGuestBookByInvuIdAndIsVisible(id, 1);
        if(bookList.isEmpty()){
            throw new EntityNotFoundException("해당 invuId로 조회된 리스트가 없습니다.");
        }
@@ -31,7 +31,7 @@ public class GuestBookService {
     }
 
     public GuestBook findGuestBookByInvuIdAndId(Long ivnuId, Long bookId) {
-        return guestBookRepository.findGuestBookByInvuIdAndId(ivnuId, bookId)
+        return guestBookRepository.findGuestBookByInvuIdAndIdAndIsVisible(ivnuId, bookId, 1)
                 .orElseThrow(()-> new EntityNotFoundException("GuestBook not found with BookId: "+ bookId));
     }
 

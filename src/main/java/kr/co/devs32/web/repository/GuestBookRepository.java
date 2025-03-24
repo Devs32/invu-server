@@ -11,8 +11,8 @@ import java.util.Optional;
 @Repository
 public interface GuestBookRepository extends JpaRepository<GuestBook, Long> {
     //방명록 리스트 조회
-   List<GuestBook> findAllGuestBookByInvuId(Long id);
+   List<GuestBook> findAllGuestBookByInvuIdAndIsVisible(Long id, int isVisible);
 
    //특정 방명록 조회
-   Optional<GuestBook> findGuestBookByInvuIdAndId(Long ivnuId, Long id);
+   Optional<GuestBook> findGuestBookByInvuIdAndIdAndIsVisible(Long ivnuId, Long id, int isVisible);
 }

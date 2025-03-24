@@ -80,6 +80,7 @@ public class InvitationController {
         return ApiResponse.success("방명록 수정이 완료되었습니다.");
     }
 
+    //방명록 삭제
     @PostMapping("{id}/guestBooks/delete/{bookId}")
     public ApiResponse deleteGuestBook(@PathVariable(name = "id") Long invuId, @PathVariable(name = "bookId") Long bookId, @RequestBody GuestBookRequestDto dto) {
         guestBookService.deleteGuestBook(invuId, bookId, dto);
