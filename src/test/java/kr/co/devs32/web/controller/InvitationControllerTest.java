@@ -2,15 +2,13 @@ package kr.co.devs32.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityNotFoundException;
-import kr.co.devs32.web.domain.AttendanceStatus;
 import kr.co.devs32.web.domain.Guest;
 import kr.co.devs32.web.domain.Invitation;
 import kr.co.devs32.web.dto.GuestRequestDto;
+import kr.co.devs32.web.service.GuestBookService;
 import kr.co.devs32.web.service.GuestService;
 import kr.co.devs32.web.service.InvitationService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -27,7 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
 @WebMvcTest(InvitationController.class)
 class InvitationControllerTest {
 
@@ -39,6 +36,9 @@ class InvitationControllerTest {
 
     @MockBean
     private GuestService guestService;
+
+    @MockBean
+    private GuestBookService guestBookService;
 
 
     @Test

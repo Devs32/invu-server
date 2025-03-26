@@ -1,8 +1,12 @@
 package kr.co.devs32.web.controller;
 
 
+import jakarta.persistence.EntityNotFoundException;
+import kr.co.devs32.web.domain.GuestBook;
+import kr.co.devs32.web.dto.GuestBookRequestDto;
 import kr.co.devs32.web.dto.GuestRequestDto;
 import kr.co.devs32.web.response.ApiResponse;
+import kr.co.devs32.web.service.GuestBookService;
 import kr.co.devs32.web.service.GuestService;
 import kr.co.devs32.web.service.InvitationService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 public class InvitationController {
     private final InvitationService invitationService;
     private final GuestService guestService;
+
+    private final GuestBookService guestBookService;
 
     //초대장 조회
     @GetMapping("{id}")
@@ -45,4 +51,43 @@ public class InvitationController {
     public ApiResponse getGuestInfo(@PathVariable(name = "id") Long id, @PathVariable(name = "name") String name){
         return ApiResponse.success(guestService.findGuestByInvuIdAndUniqueName(id, name));
     }
+
+    //방명록 저장
+    @PostMapping("{id}/guestBooks")
+    public ResponseEntity<ApiResponse<String>> saveGuestBook(@PathVariable(name = "id") Long id , @RequestBody GuestBookRequestDto dto) {
+        dto.setInvuId(id);
+        guestBookService.save(dto);
+        ApiResponse<String> response = ApiResponse.successCreated("Created");
+        return ResponseEntity.status(201).body(response);
+    }
+
+    //방명록 리스트 조회
+    @GetMapping("{id}/guestBooks")
+    public ApiResponse getGuestBookList(@PathVariable(name = "id") Long id){
+        return ApiResponse.success(guestBookService.findAllGuestBookByInvuId(id));
+    }
+
+    //방명록 단건 조회
+    @GetMapping("{id}/guestBooks/{bookId}")
+    public ApiResponse getGuestBookInfo(@PathVariable(name = "id") Long invuId , @PathVariable(name = "bookId") Long bookId) {
+        return ApiResponse.success(guestBookService.findGuestBookByInvuIdAndId(invuId, bookId));
+    }
+
+    //방명록 수정
+    @PostMapping("{id}/guestBooks/{bookId}")
+    public ApiResponse updateGuestBooks(@PathVariable(name = "id") Long invuId, @PathVariable(name = "bookId") Long bookId, @RequestBody GuestBookRequestDto dto){
+        guestBookService.updateGuestBookMessage(invuId, bookId, dto);
+        return ApiResponse.success("방명록 수정이 완료되었습니다.");
+    }
+
+    //방명록 삭제
+    @PostMapping("{id}/guestBooks/delete/{bookId}")
+    public ApiResponse deleteGuestBook(@PathVariable(name = "id") Long invuId, @PathVariable(name = "bookId") Long bookId, @RequestBody GuestBookRequestDto dto) {
+        guestBookService.deleteGuestBook(invuId, bookId, dto);
+        return ApiResponse.success("방명록 삭제가 완료되었습니다.");
+    }
+
+
+
+
 }
