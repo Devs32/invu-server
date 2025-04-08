@@ -1,8 +1,6 @@
 package kr.co.devs32.web.controller;
 
 
-import jakarta.persistence.EntityNotFoundException;
-import kr.co.devs32.web.domain.GuestBook;
 import kr.co.devs32.web.dto.GuestBookRequestDto;
 import kr.co.devs32.web.dto.GuestRequestDto;
 import kr.co.devs32.web.response.ApiResponse;
@@ -86,8 +84,5 @@ public class InvitationController {
         guestBookService.deleteGuestBook(invuId, bookId, dto);
         return ApiResponse.success("방명록 삭제가 완료되었습니다.");
     }
-
-
-
 
 }

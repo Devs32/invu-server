@@ -1,9 +1,11 @@
 package kr.co.devs32.web.dto;
 
 import kr.co.devs32.web.domain.GuestBook;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
+@Data
 public class GuestBookResponseDto {
     private Long id;
     private String guestName;
