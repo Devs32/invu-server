@@ -1,0 +1,132 @@
+name: Release - Deploy
+
+on:
+  release:
+    types: [ created ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Cache Gradle dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.gradle/caches
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+
+    - name: Grant execute permission to Gradle wrapper
+      run: chmod +x ./gradlew
+
+    - name: Build with Gradle Wrapper
+      run: ./gradlew build
+
+    - name: Analyze with SonarCloud
+      uses: SonarSource/sonarqube-scan-action@v5.0.0
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        args: >
+          -Dsonar.organization=devs32
+          -Dsonar.projectKey=Devs32_invu-server
+          -Dsonar.sources=src/main/java
+          -Dsonar.tests=src/test/java
+          -Dsonar.java.binaries=build/classes/java/main
+          -Dsonar.java.test.binaries=build/classes/java/test
+          -Dsonar.java.source=21
+          -Dsonar.verbose=true
+          -Dsonar.coverage.exclusions=**/InvuApplication.java
+
+    - name: Log in to GitHub Container Registry (GHCR)
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+
+    - name: Build Docker Image
+      run: |
+        docker build -t ghcr.io/devs32/invu-server:latest .
+
+    - name: Push Docker Image
+      run: docker push ghcr.io/devs32/invu-server:latest
+
+  cloudtype_deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Connect deploy key
+        uses: cloudtype-github-actions/connect@v1
+        with:
+          token: ${{ secrets.CLOUD_TYPE_TOKEN }}
+          ghtoken: ${{ secrets.GHP_TOKEN_NOREPLY32 }}
+
+      - name: Deploy
+        uses: cloudtype-github-actions/deploy@v1
+        with:
+          token: ${{ secrets.CLOUD_TYPE_TOKEN }}
+          project: devs32/invu
+          stage: main
+          yaml: |
+            name: invu-server-relase
+            app: java@21
+            options:
+              ports: 8080
+              env:
+                - name: JAVA_OPTS
+                  value: -Xms256m -Xmx512m -Dcloudflare.r2.endpoint=${{ secrets.CLOUD_FLARE_R2_END_POINT }} -Dcloudflare.r2.access-key=${{ secrets.CLOUD_FLARE_R2_ACCESS_KEY }} -Dcloudflare.r2.secret-key=${{ secrets.CLOUD_FLARE_R2_SECRET_KEY }} -Dcloudflare.r2.access-url=${{ secrets.CLOUD_FLARE_R2_ACCESS_URL }}
+                - name: SPRING_PROFILES_ACTIVE
+                  value: dev
+                - name: username
+                  value: ${{ secrets.DB_USERNAME }}
+                - name: password
+                  value: ${{ secrets.DB_PASSWORD }}
+                - name: cloudflare_r2_endpoint
+                  value: ${{ secrets.CLOUD_FLARE_R2_END_POINT }}
+                - name: cloudflare_r2_access_key
+                  value: ${{ secrets.CLOUD_FLARE_R2_ACCESS_KEY }}
+                - name: cloudflare_r2_secret_key
+                  value: ${{ secrets.CLOUD_FLARE_R2_SECRET_KEY }}
+                - name: cloudflare_r2_access_url
+                  value: ${{ secrets.CLOUD_FLARE_R2_ACCESS_URL }}
+            context:
+              git:
+                url: git@github.com:${{ github.repository }}.git
+                ref: ${{ github.ref }}
+              preset: java-springboot
+
+  dependency-submission:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+
+    - name: Generate and submit dependency graph
+      uses: gradle/actions/dependency-submission@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
