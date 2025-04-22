@@ -95,7 +95,7 @@ jobs:
                 - name: JAVA_OPTS
                   value: -Xms256m -Xmx512m -Dcloudflare.r2.endpoint=${{ secrets.CLOUD_FLARE_R2_END_POINT }} -Dcloudflare.r2.access-key=${{ secrets.CLOUD_FLARE_R2_ACCESS_KEY }} -Dcloudflare.r2.secret-key=${{ secrets.CLOUD_FLARE_R2_SECRET_KEY }} -Dcloudflare.r2.access-url=${{ secrets.CLOUD_FLARE_R2_ACCESS_URL }}
                 - name: SPRING_PROFILES_ACTIVE
-                  value: dev
+                  value: prod
                 - name: username
                   value: ${{ secrets.DB_USERNAME }}
                 - name: password

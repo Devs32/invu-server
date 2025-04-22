@@ -1,10 +1,10 @@
 spring:
     config:
         activate:
-            on-profile: local
+            on-profile: dev
 
     datasource:
-        url: jdbc:mariadb://svc.sel4.cloudtype.app:32389/invu
+        url: jdbc:mariadb://mariadb:3306/invu
         username: ${username}
         password: ${password}
         driver-class-name: org.mariadb.jdbc.Driver
@@ -18,4 +18,4 @@ spring:
                 show_sql: true
 
 cors:
-    allowed-origins: http://localhost:3300,http://localhost:3000,https://port-next-invu-client-m78pe23vb8056d68.sel4.cloudtype.app,http://invu-client:3000
+    allowed-origins: https://port-next-invu-client-release-m78pe23vb8056d68.sel4.cloudtype.app, http://invu-client-release:3000, https://invu.devs32.org
