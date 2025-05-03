@@ -11,6 +11,7 @@ import java.util.Date;
 public class GuestRequestDto {
     private String guestName;
     private int attendCount;
+    private int childCount;
     private String nameNotes;
     private String status;
     private String uniqueName;
@@ -24,7 +25,8 @@ public class GuestRequestDto {
                 null,
                 this.guestName,
                 this.attendCount,
-                null,
+                this.childCount,
+                this.nameNotes,
                 AttendanceStatus.valueOf(this.status),
                 new Date(),
                 null,
