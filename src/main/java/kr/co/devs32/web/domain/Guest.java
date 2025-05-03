@@ -24,6 +24,9 @@ public class Guest {
     private String guestName;
     @Column(name = "attend_number")
     private int attendCount;
+
+    @Column(name = "child_number")
+    private int childCount;
     @Column(name = "name_notes")
     private String nameNotes;
 
