@@ -16,8 +16,8 @@ public class InvitationService {
     /**
      * 초대장 조회 by ID
      */
-    public Invitation findInvitation(Long id) {
-        return invitationRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Invitation not found with id: "+ id));
+    public Invitation findInvitation(String code) {
+        return invitationRepository.findByCode(code)
+                .orElseThrow(()-> new EntityNotFoundException("Invitation not found with code: "+ code));
     }
 }

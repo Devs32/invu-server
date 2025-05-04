@@ -23,9 +23,9 @@ public class InvitationController {
     private final GuestBookService guestBookService;
 
     //초대장 조회
-    @GetMapping("{id}")
-    public ApiResponse getInvitation(@PathVariable(name = "id") Long id) {
-        return ApiResponse.success(invitationService.findInvitation(id));
+    @GetMapping("{code}")
+    public ApiResponse getInvitation(@PathVariable(name = "code") String code) {
+        return ApiResponse.success(invitationService.findInvitation(code));
     }
 
     //게스트 참석여부 저장
