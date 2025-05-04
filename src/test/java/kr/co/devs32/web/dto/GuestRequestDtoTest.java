@@ -1,11 +1,12 @@
 package kr.co.devs32.web.dto;
 
-import kr.co.devs32.web.domain.AttendanceStatus;
-import kr.co.devs32.web.domain.Guest;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
+import kr.co.devs32.web.domain.AttendanceStatus;
+import kr.co.devs32.web.domain.Guest;
 
 class GuestRequestDtoTest {
 
@@ -15,7 +16,7 @@ class GuestRequestDtoTest {
     void setUp() {
         guestRequestDto = new GuestRequestDto();
         guestRequestDto.setGuestName("홍길동");
-        guestRequestDto.setAttendCount(2);
+        guestRequestDto.setAttendNumber(2);
         guestRequestDto.setNameNotes("동행1,동행2");
         guestRequestDto.setStatus("YES");
         guestRequestDto.setInvuId(123L);
@@ -67,7 +68,7 @@ class GuestRequestDtoTest {
 
         // then
         assertThat(guest.getGuestName()).isEqualTo("홍길동");
-        assertThat(guest.getAttendCount()).isEqualTo(2);
+        assertThat(guest.getAttendNumber()).isEqualTo(2);
         assertThat(guest.getNameNotes()).isNull();  // nameNotes는 null로 설정되어 있음
         assertThat(guest.getStatus()).isEqualTo(AttendanceStatus.YES);  // AttendanceStatus enum 값이 제대로 매핑되었는지
         assertThat(guest.getUniqueName()).isEqualTo("ABC12345");
