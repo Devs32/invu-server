@@ -69,7 +69,7 @@ class GuestRequestDtoTest {
         // then
         assertThat(guest.getGuestName()).isEqualTo("홍길동");
         assertThat(guest.getAttendNumber()).isEqualTo(2);
-        assertThat(guest.getNameNotes()).isNull();  // nameNotes는 null로 설정되어 있음
+        assertThat(guest.getNameNotes()).isEqualTo("동행1,동행2");
         assertThat(guest.getStatus()).isEqualTo(AttendanceStatus.YES);  // AttendanceStatus enum 값이 제대로 매핑되었는지
         assertThat(guest.getUniqueName()).isEqualTo("ABC12345");
         assertThat(guest.getInvuId()).isEqualTo(123L);
