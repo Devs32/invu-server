@@ -1,19 +1,18 @@
 package kr.co.devs32.web.service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import jakarta.persistence.EntityNotFoundException;
 import kr.co.devs32.web.domain.GuestBook;
 import kr.co.devs32.web.dto.GuestBookRequestDto;
 import kr.co.devs32.web.dto.GuestBookResponseDto;
-import kr.co.devs32.web.handler.CustomException;
 import kr.co.devs32.web.handler.CustomException.BusinessException;
 import kr.co.devs32.web.repository.GuestBookRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,8 +29,9 @@ public class GuestBookService {
            throw new EntityNotFoundException("해당 invuId로 조회된 리스트가 없습니다.");
        }
         return bookList.stream()
-                .map(GuestBookResponseDto::new)
-                .collect(Collectors.toList());
+            .sorted((a, b) -> b.getCreated_at().compareTo(a.getCreated_at()))
+            .map(GuestBookResponseDto::new)
+            .toList();
     }
 
     public GuestBookResponseDto findGuestBookByInvuIdAndId(Long invuId, Long bookId) {
