@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface InvitationRepository extends JpaRepository<Invitation, Long> {
     Optional<Invitation> findByCode(String code);
+    Optional<Long> findIdByCode(String code);
 }

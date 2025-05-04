@@ -20,4 +20,9 @@ public class InvitationService {
         return invitationRepository.findByCode(code)
                 .orElseThrow(()-> new EntityNotFoundException("Invitation not found with code: "+ code));
     }
+
+    public Long findInvitationId(String code) {
+        return invitationRepository.findIdByCode(code)
+                .orElseThrow(()-> new EntityNotFoundException("Invitation not found with code: "+ code));
+    }
 }
