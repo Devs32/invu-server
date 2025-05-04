@@ -10,8 +10,8 @@ import java.util.Date;
 @Data
 public class GuestRequestDto {
     private String guestName;
-    private int attendCount;
-    private int childCount;
+    private int attendNumber;
+    private int childNumber;
     private String nameNotes;
     private String status;
     private String uniqueName;
@@ -24,8 +24,8 @@ public class GuestRequestDto {
         return new Guest(
                 null,
                 this.guestName,
-                this.attendCount,
-                this.childCount,
+                this.attendNumber,
+                this.childNumber,
                 this.nameNotes,
                 AttendanceStatus.valueOf(this.status),
                 new Date(),
