@@ -1,11 +1,13 @@
 package kr.co.devs32.web.dto;
 
+import java.util.Date;
+
+import org.apache.commons.lang3.RandomStringUtils;
+
+import io.micrometer.common.util.StringUtils;
 import kr.co.devs32.web.domain.AttendanceStatus;
 import kr.co.devs32.web.domain.Guest;
 import lombok.Data;
-import org.apache.commons.lang3.RandomStringUtils;
-
-import java.util.Date;
 
 @Data
 public class GuestRequestDto {
@@ -27,7 +29,7 @@ public class GuestRequestDto {
                 this.attendNumber,
                 this.childNumber,
                 this.nameNotes,
-                AttendanceStatus.valueOf(this.status),
+            (StringUtils.isNotBlank(getStatus())) ? AttendanceStatus.valueOf(getStatus()) : null,
                 new Date(),
                 null,
                 this.uniqueName,
