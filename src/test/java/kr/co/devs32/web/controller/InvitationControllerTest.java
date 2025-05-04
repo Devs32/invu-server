@@ -1,13 +1,14 @@
 package kr.co.devs32.web.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.EntityNotFoundException;
-import kr.co.devs32.web.domain.Guest;
-import kr.co.devs32.web.domain.Invitation;
-import kr.co.devs32.web.dto.GuestRequestDto;
-import kr.co.devs32.web.service.GuestBookService;
-import kr.co.devs32.web.service.GuestService;
-import kr.co.devs32.web.service.InvitationService;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -15,15 +16,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Date;
-import java.util.List;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.mockito.Mockito.*;
+import kr.co.devs32.web.domain.Guest;
+import kr.co.devs32.web.dto.GuestRequestDto;
+import kr.co.devs32.web.service.*;
 
 @WebMvcTest(InvitationController.class)
 class InvitationControllerTest {
@@ -79,7 +76,7 @@ class InvitationControllerTest {
         Long invitationId = 6L;
         GuestRequestDto dto = new GuestRequestDto();
         dto.setGuestName("홍길동");
-        dto.setAttendCount(2);
+        dto.setAttendNumber(2);
         dto.setNameNotes("동행1,동행2");
         dto.setStatus("YES");
 

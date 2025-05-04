@@ -1,23 +1,23 @@
 package kr.co.devs32.web.service;
 
-import jakarta.persistence.EntityNotFoundException;
-import kr.co.devs32.web.domain.Guest;
-import kr.co.devs32.web.dto.GuestRequestDto;
-import kr.co.devs32.web.repository.GuestRepository;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
+import java.util.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.*;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-import static org.assertj.core.api.Assertions.*;
+import jakarta.persistence.EntityNotFoundException;
+import kr.co.devs32.web.domain.Guest;
+import kr.co.devs32.web.dto.GuestRequestDto;
+import kr.co.devs32.web.repository.GuestRepository;
 
 @ExtendWith(MockitoExtension.class)
 class GuestServiceTest {
@@ -35,7 +35,7 @@ class GuestServiceTest {
         guestRequestDto = new GuestRequestDto();
         guestRequestDto.setInvuId(6L);
         guestRequestDto.setGuestName("Test Guest");
-        guestRequestDto.setAttendCount(2);
+        guestRequestDto.setAttendNumber(2);
         guestRequestDto.setNameNotes("테스터1,테스터2");
         guestRequestDto.setStatus("YES");
 
