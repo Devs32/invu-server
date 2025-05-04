@@ -108,6 +108,8 @@ jobs:
                   value: ${{ secrets.CLOUD_FLARE_R2_SECRET_KEY }}
                 - name: cloudflare_r2_access_url
                   value: ${{ secrets.CLOUD_FLARE_R2_ACCESS_URL }}
+                - name: TZ
+                  value: Asia/Seoul
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
