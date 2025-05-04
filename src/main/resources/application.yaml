@@ -31,3 +31,9 @@ cloudflare:
         access-key: ${cloudflare_r2_access_key}
         secret-key: ${cloudflare_r2_secret_key}
         access-url: ${cloudflare_r2_access_url}
+
+logging:
+    level:
+        root: info
+    pattern:
+        console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
