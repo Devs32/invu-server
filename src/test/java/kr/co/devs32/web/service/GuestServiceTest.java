@@ -35,7 +35,7 @@ class GuestServiceTest {
         guestRequestDto = new GuestRequestDto();
         guestRequestDto.setInvuId(6L);
         guestRequestDto.setGuestName("Test Guest");
-        guestRequestDto.setAttendCount(2);
+        guestRequestDto.setAttendNumber(2);
         guestRequestDto.setNameNotes("테스터1,테스터2");
         guestRequestDto.setStatus("YES");
 

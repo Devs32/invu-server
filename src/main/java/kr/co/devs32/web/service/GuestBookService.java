@@ -30,6 +30,7 @@ public class GuestBookService {
            throw new EntityNotFoundException("해당 invuId로 조회된 리스트가 없습니다.");
        }
         return bookList.stream()
+                .sorted((a, b) -> b.getCreated_at().compareTo(a.getCreated_at()))
                 .map(GuestBookResponseDto::new)
                 .collect(Collectors.toList());
     }
