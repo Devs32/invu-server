@@ -23,10 +23,10 @@ public class Guest {
     @Column(name = "guest_name")
     private String guestName;
     @Column(name = "attend_number")
-    private int attendNumber;
+    private Integer attendNumber;
 
     @Column(name = "child_number")
-    private int childNumber;
+    private Integer childNumber;
     @Column(name = "name_notes")
     private String nameNotes;
 
